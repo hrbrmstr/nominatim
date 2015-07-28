@@ -3,7 +3,11 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 nominatim is an R package to interface to the [OpenStreeMap Nominatim API](http://wiki.openstreetmap.org/wiki/Nominatim).
 
-From the wiki: \>Nominatim (from the Latin, 'by name') is a tool to search OSM data by name and address and to generate synthetic addresses of OSM points (reverse geocoding). It can be found at nominatim.openstreetmap.org. \> \>Nominatim is also used as one of the sources for the search box on the OpenStreetMap home page. Several companies provide hosted instances of Nominatim that you can query via an API, for example see MapQuest Open Initiative, PickPoint or the OpenCage Geocoder.
+From the wiki:
+
+> Nominatim (from the Latin, 'by name') is a tool to search OSM data by name and address and to generate synthetic addresses of OSM points (reverse geocoding). It can be found at nominatim.openstreetmap.org.
+>
+> Nominatim is also used as one of the sources for the search box on the OpenStreetMap home page. Several companies provide hosted instances of Nominatim that you can query via an API, for example see MapQuest Open Initiative, PickPoint or the OpenCage Geocoder.
 
 The following functions are implemented:
 
@@ -110,7 +114,7 @@ library(nominatim)
 library(testthat)
 
 date()
-#> [1] "Tue Jul 28 16:50:39 2015"
+#> [1] "Tue Jul 28 16:58:33 2015"
 
 test_dir("tests/")
 #> testthat results ========================================================================================================
