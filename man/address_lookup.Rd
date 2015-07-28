@@ -9,6 +9,9 @@ address_lookup(osm_ids, address_details = TRUE,
   accept_language = getOption("LANG", "en-US,en;q=0.8"))
 }
 \arguments{
+\item{osm_ids}{A vector of up to 50 specific osm node, way or relations ids to
+return the addresses for. Format for each entry is \code{[N|W|R]<value>}.}
+
 \item{address_details}{Include a breakdown of the address into elements (TRUE == include)}
 
 \item{email}{If you are making large numbers of request please include a valid email address
@@ -21,9 +24,6 @@ it for all requests.}
 \item{accept_language}{Preferred language order for showing search results
 Either uses standard rfc2616 accept-language string or a simple comma separated l
 ist of language codes. The \code{LANG} option will be used, if set.#'}
-
-\item{osm_id}{A vector of up to 50 specific osm node, way or relations ids to
-return the addresses for. Format for each entry is \code{[N|W|R]<value>}.}
 }
 \description{
 Vectorized over \code{osm_ids}

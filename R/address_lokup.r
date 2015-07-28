@@ -4,7 +4,7 @@ lookup_base <- "http://nominatim.openstreetmap.org/lookup"
 #'
 #' Vectorized over \code{osm_ids}
 #'
-#' @param osm_id A vector of up to 50 specific osm node, way or relations ids to
+#' @param osm_ids A vector of up to 50 specific osm node, way or relations ids to
 #'        return the addresses for. Format for each entry is \code{[N|W|R]<value>}.
 #' @param address_details Include a breakdown of the address into elements (TRUE == include)
 #' @param email If you are making large numbers of request please include a valid email address

@@ -24,6 +24,8 @@ Restricting the results to the bounding box also enables searching by amenity on
 For example a search query of just "[pub]" would normally be rejected
 but with \code{bounded=TRUE} will result in a list of items matching within the bounding box.}
 
+\item{address_details}{Include a breakdown of the address into elements (TRUE == include)}
+
 \item{exclude_place_ids}{If you do not want certain openstreetmap objects to appear in the search result,
 give a comma separated list of the place_id's you want to skip. This can be used
 to broaden search results. For example, if a previous query only returned a few

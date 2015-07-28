@@ -3,5 +3,6 @@
 #' @name nominatim
 #' @docType package
 #' @author Bob Rudis (@@hrbrmstr)
-#' @import httr dplyr pbapply
+#' @import httr dplyr pbapply utils
+#' @importFrom curl curl_escape
 NULL
