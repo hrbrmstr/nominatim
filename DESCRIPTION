@@ -2,8 +2,8 @@ Package: nominatim
 Title: Tools for Working with the 'Nominatim' API
 Version: 0.0.0.9000
 Authors@R: c(person("Bob", "Rudis", email = "bob@rudis.net", role = c("aut", "cre")))
-Description: Nominatim <http://wiki.openstreetmap.org/wiki/Nominatim> is the API interface
-    to the geocode, reverse geocode and "place" search API interface behind OpenStreetMaps.
+Description: 'OpenStreetMap' has an API interface dubbed 'Nominatim' <http://wiki.openstreetmap.org/wiki/Nominatim>
+    for the geocoding, reverse geocoding and searching/querying for "places".
     This package provides an R interface to all Nominatim API functions.
 Depends: R (>= 3.2.0)
 License: MIT + file LICENSE
