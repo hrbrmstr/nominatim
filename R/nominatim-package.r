@@ -3,6 +3,7 @@
 #' @name nominatim
 #' @docType package
 #' @author Bob Rudis (@@hrbrmstr)
-#' @import httr dplyr pbapply utils
+#' @import httr dplyr pbapply utils sp
+#' @importFrom jsonlite fromJSON
 #' @importFrom curl curl_escape
 NULL

@@ -18,7 +18,7 @@ reverse_base <- "http://nominatim.openstreetmap.org/reverse"
 #'        Either uses standard rfc2616 accept-language string or a simple comma separated l
 #'        ist of language codes. The \code{LANG} option will be used, if set.#' @return data.frame of reverse geocode results
 #' @export
-#' @examples
+#' @examples \dontrun {
 #' # Reverse geocode Canadian embassies
 #' # complete list of Canadian embassies here:
 #' # http://open.canada.ca/data/en/dataset/6661f0f8-2fb2-46fa-9394-c033d581d531
@@ -31,6 +31,7 @@ reverse_base <- "http://nominatim.openstreetmap.org/reverse"
 #'                                  "309487691", "2793217", "501458399", "501458399"),
 #'                                  stringsAsFactors=FALSE)
 #' emb_coded_coords <- reverse_geocode_coords(embassies$lat, embassies$lon)
+#' }
 reverse_geocode_coords <- function(lat, lon,
                                    zoom=18, address_details=TRUE,
                                    email=getOption("OSM_API_EMAIL", "nominatimrpackage@example.com"),
@@ -73,7 +74,7 @@ reverse_geocode_coords <- function(lat, lon,
 #'        ist of language codes. The \code{LANG} option will be used, if set.
 #' @return data.frame of reverse geocoded results
 #' @export
-#' @examples
+#' @examples \dontrun {
 #' # Reverse geocode Canadian embassies
 #' # complete list of Canadian embassies here:
 #' # http://open.canada.ca/data/en/dataset/6661f0f8-2fb2-46fa-9394-c033d581d531
@@ -86,6 +87,7 @@ reverse_geocode_coords <- function(lat, lon,
 #'                                  "309487691", "2793217", "501458399", "501458399"),
 #'                                  stringsAsFactors=FALSE)
 #' emb_coded_osm <- reverse_geocode_osm(embassies$osm_type, embassies$osm_id)
+#' }
 reverse_geocode_osm <- function(osm_type, osm_id,
                                 zoom=18, address_details=TRUE,
                                 email=getOption("OSM_API_EMAIL", "nominatimrpackage@example.com"),

@@ -35,6 +35,7 @@ data.frame of reverse geocoded results
 Vectorized over \code{osm_type} and \code{osm_id}
 }
 \examples{
+\dontrun {
 # Reverse geocode Canadian embassies
 # complete list of Canadian embassies here:
 # http://open.canada.ca/data/en/dataset/6661f0f8-2fb2-46fa-9394-c033d581d531
@@ -47,5 +48,6 @@ embassies <- data.frame(lat=c("34.53311", "41.327546", "41.91534", "36.76148", "
                                  "309487691", "2793217", "501458399", "501458399"),
                                  stringsAsFactors=FALSE)
 emb_coded_osm <- reverse_geocode_osm(embassies$osm_type, embassies$osm_id)
+}
 }
 

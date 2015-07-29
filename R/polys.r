@@ -1,8 +1,10 @@
 search_base <- "http://nominatim.openstreetmap.org/search"
 
-#' Search for places
+#' Search for places, returning a list of \code{SpatialPointsDataFrame},
+#' \code{SpatialLinesDataFrame} or a \code{SpatialPolygonsDataFrame}
 #'
-#' Vectorized over \code{query}
+#' Vectorized over \code{query}. If the return types are mixed (i.e. not all of the
+#' same spatial type) the function will stop with an error.
 #'
 #' Nominatim indexes named (or numbered) features with the OSM data set and a subset of
 #' other unnamed features (pubs, hotels, churches, etc).
@@ -37,20 +39,27 @@ search_base <- "http://nominatim.openstreetmap.org/search"
 #'        ist of language codes. The \code{LANG} option will be used, if set.
 #' @export
 #' @examples \dontrun {
-#' osm_search("[bakery]+berlin+wedding", limit=5)
+#' # returns SpatialPointsDataFrame
+#' osm_search_spatial("[bakery]+berlin+wedding", limit=5)
+#'
+#' # returns SpatialLinesDataFrame
+#' osm_search_spatial("135-7 pilkington avenue, birmingham", limit=10)
+#'
+#' # returns SpatialPolygonsDataFrame
+#' osm_search_spatial("135 pilkington avenue, birmingham", limit=10)
 #' }
-osm_search <- function(query,
-                       country_codes=NULL,
-                       viewbox=NULL,
-                       bounded=FALSE,
-                       address_details=TRUE,
-                       exclude_place_ids=NULL,
-                       limit=1,
-                       email=getOption("OSM_API_EMAIL", "nominatimrpackage@example.com"),
-                       accept_language=getOption("LANG", "en-US,en;q=0.8")) {
+osm_search_spatial <- function(query,
+                               country_codes=NULL,
+                               viewbox=NULL,
+                               bounded=FALSE,
+                               address_details=TRUE,
+                               exclude_place_ids=NULL,
+                               limit=1,
+                               email=getOption("OSM_API_EMAIL", "nominatimrpackage@example.com"),
+                               accept_language=getOption("LANG", "en-US,en;q=0.8")) {
 
 
-  bind_rows(pblapply(1:length(query), function(i) {
+  pblapply(1:length(query), function(i) {
 
     param_base <- "format=json&dedupe=0&debug=0&polygon=0"
     if (!is.null(country_codes)) param_base <- sprintf("%s&country_codes=%s", param_base, country_codes)
@@ -61,54 +70,82 @@ osm_search <- function(query,
     if (!is.null(accept_language)) param_base <- sprintf("%s&accept-language=%s", param_base, curl::curl_escape(accept_language))
     param_base <- sprintf("%s&address_details=%d", param_base, as.numeric(address_details))
     param_base <- sprintf("%s&limit=%d", param_base, as.numeric(limit))
+    param_base <- sprintf("%s&polygon_geojson=1", param_base)
     param_base <- sprintf("%s&q=%s", param_base, gsub(" ", "+", query))
 
-    .search(param_base)
+    .search_poly(param_base)
 
-  }))
+  })
 
 }
 
 
-.search <- function(params) {
+.search_poly <- function(params) {
 
   tryCatch({
 
     res <- GET(search_base, query=params)
     stop_for_status(res)
 
-    ret <- content(res)
+    ret <- jsonlite::fromJSON(content(res, as="text"))
 
-    return(bind_rows(lapply(1:length(ret), function(i) {
+    ret_cols <- intersect(colnames(ret),
+                          c("place_id", "licence", "osm_type", "osm_id", "icon",
+                            "lat", "lon", "display_name", "class", "type", "importance"))
+    dat <- ret[, ret_cols]
 
-      ret_names <- intersect(names(ret[[i]]),
-                             c("place_id", "licence", "osm_type", "osm_id", "icon",
-                               "lat", "lon", "display_name", "class", "type", "importance"))
-      tmp_df <- data.frame(t(sapply(ret_names, function(x) { ret[[i]][[x]] })), stringsAsFactors=FALSE)
+    if ("boundingbox" %in% colnames(ret)) {
+      bndbox <- do.call(rbind.data.frame, ret$boundingbox)
+      colnames(bndbox) <- c("bbox_left", "bbox_top", "bbox_right", "bbox_bottom")
+      dat <- cbind.data.frame(dat, bndbox)
+    }
 
-      if ("address" %in% names(ret[[i]])) {
-        tmp_df <- cbind.data.frame(tmp_df,
-                                   data.frame(t(sapply(names(ret[[i]][["address"]]),
-                                                       function(x) { ret[[i]][["address"]][[x]]} )),
-                                              stringsAsFactors=FALSE),
-                                   stringsAsFactors=FALSE)
+    if ("address" %in% colnames(ret)) {
+      dat <- cbind.data.frame(dat, ret$address)
+    }
+
+    if ("geojson" %in% colnames(ret)) {
+
+      typ <- unique(ret$geojson$type)
+
+      if (length(typ) == 1) {
+        if (typ == "Point") {
+          mat <- matrix(unlist(ret$geojson$coordinates), ncol=2, byrow=TRUE)
+          return(SpatialPointsDataFrame(mat, dat))
+        } else if (typ == "LineString") {
+          mat <- lapply(lapply(ret$geojson$coordinates, matrix, ncol=2, byrow=TRUE), Line)
+          mat_l <- lapply(1:length(mat), function(i) {
+            Lines(mat[[i]], dat[i, "place_id"])
+          })
+          rownames(dat) <- dat[, "place_id"]
+          return(SpatialLinesDataFrame(SpatialLines(mat_l), dat))
+        } else if (typ == "Polygon") {
+          mat <- lapply(lapply(ret$geojson$coordinates, matrix, ncol=2, byrow=TRUE), Polygon)
+          mat_l <- lapply(1:length(mat), function(i) {
+            Polygons(list(mat[[i]]), dat[i, "place_id"])
+          })
+          rownames(dat) <- dat[, "place_id"]
+          return(SpatialPolygonsDataFrame(SpatialPolygons(mat_l), dat))
+        }
+      } else {
+        stop("Returned shapes from Nominatim API are incomptible", call.=FALSE)
       }
 
-      if ("boundingbox" %in% names(ret[[i]])) {
-        tmp_df <- cbind.data.frame(tmp_df,
-                                   bbox_left=as.numeric(ret[[i]]$boundingbox[[1]]),
-                                   bbox_top=as.numeric(ret[[i]]$boundingbox[[2]]),
-                                   bbox_right=as.numeric(ret[[i]]$boundingbox[[3]]),
-                                   bbox_bottom=as.numeric(ret[[i]]$boundingbox[[4]]),
-                                   stringsAsFactors=FALSE)
-      }
-
-      tmp_df
-
-    })))
+    }
 
   }, error=function(e) { message("Error connecting to geocode service", e)})
 
   return(NULL)
 
 }
+#
+# geojson_to_spatial <- function(geojson_string) {
+#
+#   tmp_file <- tempfile()
+#   writeLines(geojson_string, tmp_file)
+#   spat <- readOGR(tmp_file, "OGRGeoJSON", stringsAsFactors=FALSE, verbose=FALSE)
+#   unlink(tmp_file)
+#   return(sp)
+#
+# }
+#

@@ -2,10 +2,13 @@
 
 export(address_lookup)
 export(osm_search)
+export(osm_search_spatial)
 export(reverse_geocode_coords)
 export(reverse_geocode_osm)
 import(dplyr)
 import(httr)
 import(pbapply)
+import(sp)
 import(utils)
 importFrom(curl,curl_escape)
+importFrom(jsonlite,fromJSON)

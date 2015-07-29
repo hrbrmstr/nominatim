@@ -13,12 +13,13 @@ The following functions are implemented:
 
 -   `address_lookup`: Lookup the address of one or multiple OSM objects like node, way or relation.
 -   `osm_search`: Search for places
+-   `osm_search_spatial`: Search for places, returning a list of 'SpatialPointsDataFrame', 'SpatialLinesDataFrame' or a 'SpatialPolygonsDataFrame'
 -   `reverse_geocode_coords`: Reverse geocode based on lat/lon
 -   `reverse_geocode_osm`: Reverse geocode based on OSM Type & Id
 
 ### News
 
--   Version 0.0.0.9000 released
+-   Version 0.1.0.9000 released
 
 ### Installation
 
@@ -39,14 +40,15 @@ packageVersion("nominatim")
 # complete list of Canadian embassies here:
 # http://open.canada.ca/data/en/dataset/6661f0f8-2fb2-46fa-9394-c033d581d531
 
-embassies <- data.frame(lat=c("34.53311", "41.327546", "41.91534", "36.76148", "-13.83282",
-                              "40.479094", "-17.820705", "13.09511", "13.09511"),
-                        lon=c("69.1835", "19.818698", "12.50891", "3.0166", "-171.76462",
-                              "-3.686115", "31.043559", "-59.59998", "-59.59998"),
-                        osm_type=c("R", "W", "R", "N", "N", "W", "R", "N", "N"),
-                        osm_id=c("3836233", "267586999", "3718093", "501522082", "305640297",
-                                 "309487691", "2793217", "501458399", "501458399"),
-                        stringsAsFactors=FALSE)
+embassies <- data.frame(
+  lat=c("34.53311", "41.327546", "41.91534", "36.76148", "-13.83282",
+        "40.479094", "-17.820705", "13.09511", "13.09511"),
+  lon=c("69.1835", "19.818698", "12.50891", "3.0166", "-171.76462",
+        "-3.686115", "31.043559", "-59.59998", "-59.59998"),
+  osm_type=c("R", "W", "R", "N", "N", "W", "R", "N", "N"),
+  osm_id=c("3836233", "267586999", "3718093", "501522082", "305640297",
+           "309487691", "2793217", "501458399", "501458399"),
+  stringsAsFactors=FALSE)
 
 emb_coded_coords <- reverse_geocode_coords(embassies$lat, embassies$lon)
 head(emb_coded_coords)
@@ -105,7 +107,13 @@ osm_search("[bakery]+berlin+wedding", limit=5)
 #> 5  7002350 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 762607353
 #> Variables not shown: lat (chr), lon (chr), display_name (chr), class (chr), type (chr), importance (chr), icon (chr),
 #>   bbox_left (dbl), bbox_top (dbl), bbox_right (dbl), bbox_bottom (dbl)
+
+# spatial
+library(sp)
+plot(osm_search_spatial("[bakery]+berlin+wedding", limit=5)[[1]])
 ```
+
+![](README-unnamed-chunk-4-1.png)
 
 ### Test Results
 
@@ -114,7 +122,7 @@ library(nominatim)
 library(testthat)
 
 date()
-#> [1] "Tue Jul 28 16:58:33 2015"
+#> [1] "Tue Jul 28 21:26:50 2015"
 
 test_dir("tests/")
 #> testthat results ========================================================================================================

@@ -35,6 +35,7 @@ data.frame of reverse geocode results
 Vectorized over \code{lat} and \code{lon}
 }
 \examples{
+\dontrun {
 # Reverse geocode Canadian embassies
 # complete list of Canadian embassies here:
 # http://open.canada.ca/data/en/dataset/6661f0f8-2fb2-46fa-9394-c033d581d531
@@ -47,5 +48,6 @@ embassies <- data.frame(lat=c("34.53311", "41.327546", "41.91534", "36.76148", "
                                  "309487691", "2793217", "501458399", "501458399"),
                                  stringsAsFactors=FALSE)
 emb_coded_coords <- reverse_geocode_coords(embassies$lat, embassies$lon)
+}
 }
 
