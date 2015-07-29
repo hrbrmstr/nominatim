@@ -16,7 +16,7 @@ lookup_base <- "http://nominatim.openstreetmap.org/lookup"
 #' @param accept_language Preferred language order for showing search results
 #'        Either uses standard rfc2616 accept-language string or a simple comma separated l
 #'        ist of language codes. The \code{LANG} option will be used, if set.#' @export
-#' @examples \dontrun {
+#' @examples \dontrun{
 #' places <- c("R146656", "W104393803", "N240109189")
 #' places_found <- address_lookup(places)
 #' }

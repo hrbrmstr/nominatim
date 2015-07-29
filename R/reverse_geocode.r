@@ -18,7 +18,7 @@ reverse_base <- "http://nominatim.openstreetmap.org/reverse"
 #'        Either uses standard rfc2616 accept-language string or a simple comma separated l
 #'        ist of language codes. The \code{LANG} option will be used, if set.#' @return data.frame of reverse geocode results
 #' @export
-#' @examples \dontrun {
+#' @examples \dontrun{
 #' # Reverse geocode Canadian embassies
 #' # complete list of Canadian embassies here:
 #' # http://open.canada.ca/data/en/dataset/6661f0f8-2fb2-46fa-9394-c033d581d531
@@ -74,7 +74,7 @@ reverse_geocode_coords <- function(lat, lon,
 #'        ist of language codes. The \code{LANG} option will be used, if set.
 #' @return data.frame of reverse geocoded results
 #' @export
-#' @examples \dontrun {
+#' @examples \dontrun{
 #' # Reverse geocode Canadian embassies
 #' # complete list of Canadian embassies here:
 #' # http://open.canada.ca/data/en/dataset/6661f0f8-2fb2-46fa-9394-c033d581d531

@@ -35,7 +35,7 @@ data.frame of reverse geocoded results
 Vectorized over \code{osm_type} and \code{osm_id}
 }
 \examples{
-\dontrun {
+\dontrun{
 # Reverse geocode Canadian embassies
 # complete list of Canadian embassies here:
 # http://open.canada.ca/data/en/dataset/6661f0f8-2fb2-46fa-9394-c033d581d531

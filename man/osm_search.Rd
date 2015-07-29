@@ -55,7 +55,7 @@ other unnamed features (pubs, hotels, churches, etc).
 Search terms are processed first left to right and then right to left if that fails.
 }
 \examples{
-\dontrun {
+\dontrun{
 osm_search("[bakery]+berlin+wedding", limit=5)
 }
 }

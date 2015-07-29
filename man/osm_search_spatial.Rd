@@ -58,7 +58,7 @@ other unnamed features (pubs, hotels, churches, etc).
 Search terms are processed first left to right and then right to left if that fails.
 }
 \examples{
-\dontrun {
+\dontrun{
 # returns SpatialPointsDataFrame
 osm_search_spatial("[bakery]+berlin+wedding", limit=5)
 

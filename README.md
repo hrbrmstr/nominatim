@@ -19,7 +19,8 @@ The following functions are implemented:
 
 ### News
 
--   Version 0.1.0.9000 released
+-   Version 0.1.0.9000 released : "spatial" stuff
+-   Version 0.0.0.9000 released
 
 ### Installation
 
@@ -122,7 +123,7 @@ library(nominatim)
 library(testthat)
 
 date()
-#> [1] "Tue Jul 28 21:26:50 2015"
+#> [1] "Tue Jul 28 21:30:25 2015"
 
 test_dir("tests/")
 #> testthat results ========================================================================================================

@@ -35,7 +35,7 @@ data.frame of reverse geocode results
 Vectorized over \code{lat} and \code{lon}
 }
 \examples{
-\dontrun {
+\dontrun{
 # Reverse geocode Canadian embassies
 # complete list of Canadian embassies here:
 # http://open.canada.ca/data/en/dataset/6661f0f8-2fb2-46fa-9394-c033d581d531

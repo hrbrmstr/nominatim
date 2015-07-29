@@ -29,7 +29,7 @@ ist of language codes. The \code{LANG} option will be used, if set.#'}
 Vectorized over \code{osm_ids}
 }
 \examples{
-\dontrun {
+\dontrun{
 places <- c("R146656", "W104393803", "N240109189")
 places_found <- address_lookup(places)
 }

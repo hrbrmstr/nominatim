@@ -36,7 +36,7 @@ search_base <- "http://nominatim.openstreetmap.org/search"
 #'        Either uses standard rfc2616 accept-language string or a simple comma separated l
 #'        ist of language codes. The \code{LANG} option will be used, if set.
 #' @export
-#' @examples \dontrun {
+#' @examples \dontrun{
 #' osm_search("[bakery]+berlin+wedding", limit=5)
 #' }
 osm_search <- function(query,
