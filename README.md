@@ -9,9 +9,12 @@ From the wiki:
 >
 > Nominatim is also used as one of the sources for the search box on the OpenStreetMap home page. Several companies provide hosted instances of Nominatim that you can query via an API, for example see MapQuest Open Initiative, PickPoint or the OpenCage Geocoder.
 
+Most functions hit the [MapQuest Nominatim API](http://open.mapquestapi.com/nominatim/) as recommended by OpenStreetMap.
+
 The following functions are implemented:
 
 -   `address_lookup`: Lookup the address of one or multiple OSM objects like node, way or relation.
+-   `osm_geocode`: Search for places by address
 -   `osm_search`: Search for places
 -   `osm_search_spatial`: Search for places, returning a list of 'SpatialPointsDataFrame', 'SpatialLinesDataFrame' or a 'SpatialPolygonsDataFrame'
 -   `reverse_geocode_coords`: Reverse geocode based on lat/lon
@@ -21,6 +24,12 @@ The following functions are implemented:
 
 -   Version 0.1.0.9000 released : "spatial" stuff
 -   Version 0.0.0.9000 released
+
+### NOTE
+
+-   Data © OpenStreetMap contributors, ODbL 1.0. <http://www.openstreetmap.org/copyright>
+-   Nominatim Usage Policy: <http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy>
+-   MapQuest Nominatim Terms of Use: <http://info.mapquest.com/terms-of-use/>
 
 ### Installation
 
@@ -32,10 +41,13 @@ devtools::install_github("hrbrmstr/nominatim")
 
 ``` r
 library(nominatim)
+#> Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright
+#> Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
+#> MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/
 
 # current verison
 packageVersion("nominatim")
-#> [1] '0.0.0.9000'
+#> [1] '0.1.1.9000'
 
 # Reverse geocode Canadian embassies
 # complete list of Canadian embassies here:
@@ -53,31 +65,31 @@ embassies <- data.frame(
 
 emb_coded_coords <- reverse_geocode_coords(embassies$lat, embassies$lon)
 head(emb_coded_coords)
-#> Source: local data frame [6 x 23]
+#> Source: local data frame [6 x 24]
 #> 
-#>    place_id                                                                             licence osm_type     osm_id
-#> 1 114261310 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright      way  251884280
-#> 2 113405421 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright      way  248349387
-#> 3  17130351 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 1690405094
-#> 4  21875530 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 2261850466
-#> 5   6574328 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node  687791952
-#> 6  76162705 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright      way   98280735
-#> Variables not shown: lat (chr), lon (chr), display_name (chr), address29 (chr), road (chr), city (chr), state (chr),
-#>   country (chr), country_code (chr), attraction (chr), county (chr), postcode (chr), bus_stop (chr), neighbourhood
-#>   (chr), suburb (chr), city_district (chr), house_number (chr), pub (chr), building (chr)
+#>     place_id                                                                             licence osm_type     osm_id
+#> 1  141554854 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright      way  251884280
+#> 2  140380416 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright      way  248349387
+#> 3   17419117 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 1690405094
+#> 4   23022786 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 2261850466
+#> 5    6676195 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node  687791952
+#> 6 2657152894 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright      way   98280735
+#> Variables not shown: lat (dbl), lon (dbl), display_name (chr), address29 (chr), road (chr), city (chr), state (chr),
+#>   country (chr), country_code (chr), monument (chr), village_green (chr), county (chr), postcode (chr), bus_stop (chr),
+#>   neighbourhood (chr), suburb (chr), city_district (chr), house_number (chr), pub (chr), house (chr)
 
 emb_coded_osm <- reverse_geocode_osm(embassies$osm_type, embassies$osm_id)
 head(emb_coded_osm)
 #> Source: local data frame [6 x 16]
 #> 
 #>     place_id                                                                             licence osm_type    osm_id
-#> 1  128140499 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright relation   3836233
-#> 2  117737072 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright      way 267586999
-#> 3  128127817 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright relation   3718093
-#> 4 2575507032 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 501522082
-#> 5    1287405 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 305640297
-#> 6  124936050 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright      way 309487691
-#> Variables not shown: lat (chr), lon (chr), display_name (chr), city (chr), county (chr), state (chr), country (chr),
+#> 1  194135434 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright relation   3836233
+#> 2  146632013 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright      way 267586999
+#> 3  151591965 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright relation   3718093
+#> 4 2636487072 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 501522082
+#> 5    1372733 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 305640297
+#> 6 2612043014 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright      way 309487691
+#> Variables not shown: lat (dbl), lon (dbl), display_name (chr), city (chr), county (chr), state (chr), country (chr),
 #>   country_code (chr), road (chr), village (chr), town (chr), locality (chr)
 
 # lookup some places from the wiki example
@@ -100,13 +112,27 @@ head(places_found)
 osm_search("[bakery]+berlin+wedding", limit=5)
 #> Source: local data frame [5 x 15]
 #> 
-#>   place_id                                                                             licence osm_type    osm_id
-#> 1  4762713 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 530568693
-#> 2  7566845 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 832835245
-#> 3  1394510 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 317179427
-#> 4  6749898 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 707409445
-#> 5  7002350 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 762607353
-#> Variables not shown: lat (chr), lon (chr), display_name (chr), class (chr), type (chr), importance (chr), icon (chr),
+#>     place_id                                                                             licence osm_type     osm_id
+#> 1    9039748 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node  939667448
+#> 2 2659941153 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 3655549445
+#> 3   23586341 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 2299953786
+#> 4    7161987 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node  762607353
+#> 5   29179742 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 2661679367
+#> Variables not shown: lat (dbl), lon (dbl), display_name (chr), class (chr), type (chr), importance (dbl), icon (chr),
+#>   bbox_left (dbl), bbox_top (dbl), bbox_right (dbl), bbox_bottom (dbl)
+
+# address search
+
+osm_geocode(c("1600 Pennsylvania Ave, Washington, DC.",
+              "1600 Amphitheatre Parkway, Mountain View, CA",
+              "Seattle, Washington"))
+#> Source: local data frame [3 x 15]
+#> 
+#>     place_id                                                                             licence osm_type   osm_id
+#> 1 2661769953 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright relation  5396194
+#> 2   47189532 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright      way 13367984
+#> 3  151183715 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright relation   237385
+#> Variables not shown: lat (dbl), lon (dbl), display_name (chr), class (chr), type (chr), importance (dbl), icon (chr),
 #>   bbox_left (dbl), bbox_top (dbl), bbox_right (dbl), bbox_bottom (dbl)
 
 # spatial
@@ -123,7 +149,7 @@ library(nominatim)
 library(testthat)
 
 date()
-#> [1] "Tue Jul 28 21:30:25 2015"
+#> [1] "Wed Jul 29 08:58:45 2015"
 
 test_dir("tests/")
 #> testthat results ========================================================================================================

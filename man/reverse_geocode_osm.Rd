@@ -9,7 +9,7 @@ reverse_geocode_osm(osm_type, osm_id, zoom = 18, address_details = TRUE,
   accept_language = getOption("LANG", "en-US,en;q=0.8"))
 }
 \arguments{
-\item{osm_type}{A specific osm node / way / relation to return an address for (N, W or R)}
+\item{osm_type}{A specific osm node / way / relation to return an address for (\code{N, W or R})}
 
 \item{osm_id}{A specific osm node / way / relation to return an address for}
 
@@ -33,6 +33,14 @@ data.frame of reverse geocoded results
 }
 \description{
 Vectorized over \code{osm_type} and \code{osm_id}
+}
+\note{
+A slight delay is introduced between calls as both OpenStreetMap Nominatim &
+      MapQuest Nominatim API calls to reduce load on their servers.
+
+Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright
+Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
+MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/
 }
 \examples{
 \dontrun{

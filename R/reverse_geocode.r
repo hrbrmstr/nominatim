@@ -1,8 +1,13 @@
-reverse_base <- "http://nominatim.openstreetmap.org/reverse"
-
 #' Reverse geocode based on lat/lon
 #'
 #' Vectorized over \code{lat} and \code{lon}
+#'
+#' @note A slight delay is introduced between calls as both OpenStreetMap Nominatim &
+#'       MapQuest Nominatim API calls to reduce load on their servers.
+#'
+#' Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright\cr
+#' Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy\cr
+#' MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/\cr
 #'
 #' @param lat Latitude to generate an address for
 #' @param lon Longitude to generate an address for
@@ -48,6 +53,8 @@ reverse_geocode_coords <- function(lat, lon,
                    `accept-language`=accept_language,
                    addressdetails=as.numeric(address_details))
 
+    if (length(lat) > 1 & length(lat) != i) Sys.sleep(DELAY)
+
     reverse_geocode(params)
 
   }))
@@ -59,7 +66,14 @@ reverse_geocode_coords <- function(lat, lon,
 #'
 #' Vectorized over \code{osm_type} and \code{osm_id}
 #'
-#' @param osm_type A specific osm node / way / relation to return an address for (N, W or R)
+#' @note A slight delay is introduced between calls as both OpenStreetMap Nominatim &
+#'       MapQuest Nominatim API calls to reduce load on their servers.
+#'
+#' Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright
+#' Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
+#' MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/
+#'
+#' @param osm_type A specific osm node / way / relation to return an address for (\code{N, W or R})
 #' @param osm_id A specific osm node / way / relation to return an address for
 #' @param zoom Level of detail required where 0 is country and 18 is house/building
 #' @param address_details Include a breakdown of the address into elements (TRUE == include)
@@ -104,6 +118,8 @@ reverse_geocode_osm <- function(osm_type, osm_id,
                    `accept-language`=accept_language,
                    addressdetails=as.numeric(address_details))
 
+    if (length(osm_type) > 1 & length(osm_type) != i) Sys.sleep(DELAY)
+
     reverse_geocode(params)
 
   }))
@@ -115,10 +131,12 @@ reverse_geocode <- function(params) {
 
   tryCatch({
 
-    res <- GET(reverse_base, query=params)
+    res <- GET(reverse_base, query=params, timeout(TIMEOUT))
     stop_for_status(res)
 
     ret <- content(res)
+
+    if (length(ret) == 0) return(NULL)
 
     ret_names <- intersect(names(ret),
                            c("place_id", "licence", "osm_type", "osm_id",
@@ -132,6 +150,9 @@ reverse_geocode <- function(params) {
                                             stringsAsFactors=FALSE),
                                  stringsAsFactors=FALSE)
     }
+
+    tmp_df$lat <- as.numeric(tmp_df$lat)
+    tmp_df$lon <- as.numeric(tmp_df$lon)
 
     return(tmp_df)
 

@@ -4,11 +4,21 @@
 \name{nominatim}
 \alias{nominatim}
 \alias{nominatim-package}
-\title{A package to is an R package to interface to the OpenStreeMap Nominatum API
-\url{http://wiki.openstreetmap.org/wiki/Nominatim}}
+\title{A package to is an R package to interface to the OpenStreeMap Nominatum API}
 \description{
-A package to is an R package to interface to the OpenStreeMap Nominatum API
+Most queries are run against the MapQuest Nominatim API as per the OpenStreetMap
+recommendation.
+}
+\details{
+Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright\cr
+Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy\cr
+MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/\cr
+
 \url{http://wiki.openstreetmap.org/wiki/Nominatim}
+}
+\note{
+A slight delay is introduced between calls as both OpenStreetMap Nominatim &
+      MapQuest Nominatim API calls to reduce load on their servers.
 }
 \author{
 Bob Rudis (@hrbrmstr)

@@ -1,5 +1,3 @@
-search_base <- "http://nominatim.openstreetmap.org/search"
-
 #' Search for places, returning a list of \code{SpatialPointsDataFrame},
 #' \code{SpatialLinesDataFrame} or a \code{SpatialPolygonsDataFrame}
 #'
@@ -8,6 +6,13 @@ search_base <- "http://nominatim.openstreetmap.org/search"
 #'
 #' Nominatim indexes named (or numbered) features with the OSM data set and a subset of
 #' other unnamed features (pubs, hotels, churches, etc).
+#'
+#' @note A slight delay is introduced between calls as both OpenStreetMap Nominatim &
+#'       MapQuest Nominatim API calls to reduce load on their servers.
+#'
+#' Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright\cr
+#' Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy\cr
+#' MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/\cr
 #'
 #' Search terms are processed first left to right and then right to left if that fails.
 #'
@@ -73,6 +78,8 @@ osm_search_spatial <- function(query,
     param_base <- sprintf("%s&polygon_geojson=1", param_base)
     param_base <- sprintf("%s&q=%s", param_base, gsub(" ", "+", query))
 
+    if (length(query) > 1 & length(query) != i) Sys.sleep(DELAY)
+
     .search_poly(param_base)
 
   })
@@ -84,7 +91,7 @@ osm_search_spatial <- function(query,
 
   tryCatch({
 
-    res <- GET(search_base, query=params)
+    res <- GET(search_base, query=params, timeout(TIMEOUT))
     stop_for_status(res)
 
     ret <- jsonlite::fromJSON(content(res, as="text"))
@@ -107,7 +114,6 @@ osm_search_spatial <- function(query,
     dat$lat <- as.numeric(dat$lat)
     dat$lon <- as.numeric(dat$lon)
     dat$importance <- as.numeric(dat$importance)
-
 
     if ("geojson" %in% colnames(ret)) {
 

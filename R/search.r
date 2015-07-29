@@ -1,6 +1,6 @@
-search_base <- "http://nominatim.openstreetmap.org/search"
-
-#' Search for places
+#' Search for places by address
+#'
+#' Geocode place addresses
 #'
 #' Vectorized over \code{query}
 #'
@@ -8,6 +8,87 @@ search_base <- "http://nominatim.openstreetmap.org/search"
 #' other unnamed features (pubs, hotels, churches, etc).
 #'
 #' Search terms are processed first left to right and then right to left if that fails.
+#'
+#' @note A slight delay is introduced between calls as both OpenStreetMap Nominatim &
+#'       MapQuest Nominatim API calls to reduce load on their servers.
+#'
+#' Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright\cr
+#' Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy\cr
+#' MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/\cr
+#'
+#' @param query Query string to search for. SHould be in standard address format.
+#' @param country_codes Limit search results to a specific country (or a list of countries).
+#'        Should be the ISO 3166-1alpha2 code,e.g. gb for the United Kingdom, de for Germany, etc.
+#'        Format: \code{<countrycode>[,<countrycode>][,<countrycode>]...}
+#' @param viewbox The preferred area to find search results. Format:
+#'        \code{<left>,<top>,<right>,<bottom>}
+#' @param bounded Restrict the results to only items contained with the bounding box.
+#'        Restricting the results to the bounding box also enables searching by amenity only.
+#'        For example a search query of just "[pub]" would normally be rejected
+#'        but with \code{bounded=TRUE} will result in a list of items matching within the bounding box.
+#' @param address_details Include a breakdown of the address into elements (TRUE == include)
+#' @param exclude_place_ids If you do not want certain openstreetmap objects to appear in the search result,
+#'        give a comma separated list of the place_id's you want to skip. This can be used
+#'        to broaden search results. For example, if a previous query only returned a few
+#'        results, then including those here would cause the search to return other, less
+#'        accurate, matches (if possible). Format \code{<place_id,[place_id],[place_id]>}
+#' @param limit Limit the number of returned results (numeric)
+#' @param email If you are making large numbers of request please include a valid email address
+#'        or alternatively include your email address as part of the User-Agent string.
+#'        This information will be kept confidential and only used to contact you in the
+#'        event of a problem, see Usage Policy for more details. You can pass the value
+#'        in directly or set the \code{OSM_API_EMAIL} option and the function will
+#'        it for all requests.
+#' @param accept_language Preferred language order for showing search results
+#'        Either uses standard rfc2616 accept-language string or a simple comma separated l
+#'        ist of language codes. The \code{LANG} option will be used, if set.
+#' @export
+#' @examples \dontrun{
+#' osm_search("[bakery]+berlin+wedding", limit=5)
+#' }
+osm_geocode <- function(query,
+                        country_codes=NULL,
+                        viewbox=NULL,
+                        bounded=FALSE,
+                        address_details=TRUE,
+                        exclude_place_ids=NULL,
+                        limit=1,
+                        email=getOption("OSM_API_EMAIL", "nominatimrpackage@example.com"),
+                        accept_language=getOption("LANG", "en-US,en;q=0.8")) {
+
+
+  bind_rows(pblapply(1:length(query), function(i) {
+
+    param_base <- sprintf("%s/%s", search_base, gsub(" ", "+", query[i]))
+
+    params <- "format=json&dedupe=0&debug=0&polygon=0"
+    if (!is.null(country_codes)) params <- sprintf("%s&country_codes=%s", params, country_codes)
+    if (!is.null(viewbox)) params <- sprintf("%s&viewbox=%s", params, viewbox)
+    if (!is.null(bounded)) params <- sprintf("%s&bounded=%d", params, as.numeric(bounded))
+    if (!is.null(exclude_place_ids)) params <- sprintf("%s&exclude_place_ids=%s", params, exclude_place_ids)
+    if (!is.null(email)) params <- sprintf("%s&email=%s", params, curl::curl_escape(email))
+    if (!is.null(accept_language)) params <- sprintf("%s&accept-language=%s", params, curl::curl_escape(accept_language))
+    params <- sprintf("%s&address_details=%d", params, as.numeric(address_details))
+    params <- sprintf("%s&limit=%d", params, as.numeric(limit))
+
+    if (length(query) > 1 & length(query) != i) Sys.sleep(DELAY)
+
+    .search(param_base, params)
+
+  }))
+
+}
+
+#' Search for places
+#'
+#' Vectorized over \code{query}
+#'
+#' @note A slight delay is introduced between calls as both OpenStreetMap Nominatim &
+#'       MapQuest Nominatim API calls to reduce load on their servers.
+#'
+#' Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright
+#' Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
+#' MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/
 #'
 #' @param query Query string to search for
 #' @param country_codes Limit search results to a specific country (or a list of countries).
@@ -61,23 +142,26 @@ osm_search <- function(query,
     if (!is.null(accept_language)) param_base <- sprintf("%s&accept-language=%s", param_base, curl::curl_escape(accept_language))
     param_base <- sprintf("%s&address_details=%d", param_base, as.numeric(address_details))
     param_base <- sprintf("%s&limit=%d", param_base, as.numeric(limit))
-    param_base <- sprintf("%s&q=%s", param_base, gsub(" ", "+", query))
+    param_base <- sprintf("%s&q=%s", param_base, gsub(" ", "+", query[i]))
 
-    .search(param_base)
+    if (length(query) > 1 & length(query) != i) Sys.sleep(DELAY)
+
+    .search(search_base, param_base)
 
   }))
 
 }
 
-
-.search <- function(params) {
+.search <- function(search_base, params) {
 
   tryCatch({
 
-    res <- GET(search_base, query=params)
+    res <- GET(search_base, query=params, timeout(TIMEOUT))
     stop_for_status(res)
 
     ret <- content(res)
+
+    if (length(ret) == 0) return(NULL)
 
     return(bind_rows(lapply(1:length(ret), function(i) {
 

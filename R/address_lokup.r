@@ -1,8 +1,13 @@
-lookup_base <- "http://nominatim.openstreetmap.org/lookup"
-
 #' Lookup the address of one or multiple OSM objects like node, way or relation.
 #'
 #' Vectorized over \code{osm_ids}
+#'
+#' @note A slight delay is introduced between calls as both OpenStreetMap Nominatim &
+#'       MapQuest Nominatim API calls to reduce load on their servers.
+#'
+#' Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright\cr
+#' Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy\cr
+#' MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/\cr
 #'
 #' @param osm_ids A vector of up to 50 specific osm node, way or relations ids to
 #'        return the addresses for. Format for each entry is \code{[N|W|R]<value>}.
@@ -40,10 +45,12 @@ address_lookup <- function(osm_ids,
 
   tryCatch({
 
-    res <- GET(lookup_base, query=params)
+    res <- GET(lookup_base, query=params, timeout(TIMEOUT))
     stop_for_status(res)
 
     ret <- content(res)
+
+    if (length(ret) == 0) return(NULL)
 
     return(bind_rows(lapply(1:length(ret), function(i) {
 

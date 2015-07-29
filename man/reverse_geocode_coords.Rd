@@ -34,6 +34,14 @@ data.frame of reverse geocode results
 \description{
 Vectorized over \code{lat} and \code{lon}
 }
+\note{
+A slight delay is introduced between calls as both OpenStreetMap Nominatim &
+      MapQuest Nominatim API calls to reduce load on their servers.
+
+Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright\cr
+Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy\cr
+MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/\cr
+}
 \examples{
 \dontrun{
 # Reverse geocode Canadian embassies

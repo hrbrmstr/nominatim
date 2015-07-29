@@ -24,9 +24,12 @@ From the wiki:
 >
 >Nominatim is also used as one of the sources for the search box on the OpenStreetMap home page. Several companies provide hosted instances of Nominatim that you can query via an API, for example see MapQuest Open Initiative, PickPoint or the OpenCage Geocoder.
 
+Most functions hit the [MapQuest Nominatim API](http://open.mapquestapi.com/nominatim/) as recommended by OpenStreetMap.
+
 The following functions are implemented:
 
 - `address_lookup`:	Lookup the address of one or multiple OSM objects like node, way or relation.
+- `osm_geocode`:	Search for places by address
 - `osm_search`:	Search for places
 - `osm_search_spatial`:	Search for places, returning a list of 'SpatialPointsDataFrame', 'SpatialLinesDataFrame' or a 'SpatialPolygonsDataFrame'
 - `reverse_geocode_coords`:	Reverse geocode based on lat/lon
@@ -36,6 +39,12 @@ The following functions are implemented:
 
 - Version 0.1.0.9000 released : "spatial" stuff
 - Version 0.0.0.9000 released
+
+### NOTE
+
+- Data &copy; OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright
+- Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
+- MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/
 
 ### Installation
 
@@ -84,6 +93,12 @@ head(places_found)
 # more general search
 
 osm_search("[bakery]+berlin+wedding", limit=5)
+
+# address search
+
+osm_geocode(c("1600 Pennsylvania Ave, Washington, DC.",
+              "1600 Amphitheatre Parkway, Mountain View, CA",
+              "Seattle, Washington"))
 
 # spatial
 library(sp)

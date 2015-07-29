@@ -28,6 +28,14 @@ ist of language codes. The \code{LANG} option will be used, if set.#'}
 \description{
 Vectorized over \code{osm_ids}
 }
+\note{
+A slight delay is introduced between calls as both OpenStreetMap Nominatim &
+      MapQuest Nominatim API calls to reduce load on their servers.
+
+Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright\cr
+Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy\cr
+MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/\cr
+}
 \examples{
 \dontrun{
 places <- c("R146656", "W104393803", "N240109189")

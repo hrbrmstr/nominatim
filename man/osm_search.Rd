@@ -48,11 +48,13 @@ ist of language codes. The \code{LANG} option will be used, if set.}
 \description{
 Vectorized over \code{query}
 }
-\details{
-Nominatim indexes named (or numbered) features with the OSM data set and a subset of
-other unnamed features (pubs, hotels, churches, etc).
+\note{
+A slight delay is introduced between calls as both OpenStreetMap Nominatim &
+      MapQuest Nominatim API calls to reduce load on their servers.
 
-Search terms are processed first left to right and then right to left if that fails.
+Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright
+Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
+MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/
 }
 \examples{
 \dontrun{
