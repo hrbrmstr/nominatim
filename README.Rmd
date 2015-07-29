@@ -8,7 +8,7 @@ output:
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, echo = FALSE}
+```{r setup, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -37,6 +37,7 @@ The following functions are implemented:
 
 ### News
 
+- Version 0.1.1.9000 released : address lookup, switch API server, API timeout watch
 - Version 0.1.0.9000 released : "spatial" stuff
 - Version 0.0.0.9000 released
 
@@ -46,19 +47,25 @@ The following functions are implemented:
 - Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
 - MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/
 
+### TODO
+
+- Enable configuration of timeout
+- Enable switching Nominatim API server providers
+- Better spatial support
+
 ### Installation
 
-```{r eval=FALSE}
+```{r install, eval=FALSE}
 devtools::install_github("hrbrmstr/nominatim")
 ```
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
+```{r options, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
 options(width=120)
 ```
 
 ### Usage
 
-```{r}
+```{r usage}
 library(nominatim)
 
 # current verison
@@ -108,7 +115,7 @@ plot(osm_search_spatial("[bakery]+berlin+wedding", limit=5)[[1]])
 
 ### Test Results
 
-```{r}
+```{r test}
 library(nominatim)
 library(testthat)
 

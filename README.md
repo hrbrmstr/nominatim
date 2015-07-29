@@ -22,6 +22,7 @@ The following functions are implemented:
 
 ### News
 
+-   Version 0.1.1.9000 released : address lookup, switch API server, API timeout watch
 -   Version 0.1.0.9000 released : "spatial" stuff
 -   Version 0.0.0.9000 released
 
@@ -30,6 +31,12 @@ The following functions are implemented:
 -   Data © OpenStreetMap contributors, ODbL 1.0. <http://www.openstreetmap.org/copyright>
 -   Nominatim Usage Policy: <http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy>
 -   MapQuest Nominatim Terms of Use: <http://info.mapquest.com/terms-of-use/>
+
+### TODO
+
+-   Enable configuration of timeout
+-   Enable switching Nominatim API server providers
+-   Better spatial support
 
 ### Installation
 
@@ -79,18 +86,19 @@ head(emb_coded_coords)
 #>   neighbourhood (chr), suburb (chr), city_district (chr), house_number (chr), pub (chr), house (chr)
 
 emb_coded_osm <- reverse_geocode_osm(embassies$osm_type, embassies$osm_id)
+#> Error connecting to geocode serviceError in curl::curl_fetch_memory(url, handle = handle): Timeout was reached
 head(emb_coded_osm)
-#> Source: local data frame [6 x 16]
+#> Source: local data frame [6 x 15]
 #> 
 #>     place_id                                                                             licence osm_type    osm_id
 #> 1  194135434 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright relation   3836233
 #> 2  146632013 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright      way 267586999
 #> 3  151591965 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright relation   3718093
-#> 4 2636487072 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 501522082
-#> 5    1372733 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 305640297
-#> 6 2612043014 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright      way 309487691
+#> 4    1372733 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright     node 305640297
+#> 5 2612043014 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright      way 309487691
+#> 6  151467740 Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright relation   2793217
 #> Variables not shown: lat (dbl), lon (dbl), display_name (chr), city (chr), county (chr), state (chr), country (chr),
-#>   country_code (chr), road (chr), village (chr), town (chr), locality (chr)
+#>   country_code (chr), road (chr), village (chr), locality (chr)
 
 # lookup some places from the wiki example
 
@@ -140,7 +148,7 @@ library(sp)
 plot(osm_search_spatial("[bakery]+berlin+wedding", limit=5)[[1]])
 ```
 
-![](README-unnamed-chunk-4-1.png)
+![](README-usage-1.png)
 
 ### Test Results
 
@@ -149,7 +157,7 @@ library(nominatim)
 library(testthat)
 
 date()
-#> [1] "Wed Jul 29 08:58:45 2015"
+#> [1] "Wed Jul 29 09:25:39 2015"
 
 test_dir("tests/")
 #> testthat results ========================================================================================================
