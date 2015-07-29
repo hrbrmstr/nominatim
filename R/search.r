@@ -103,6 +103,10 @@ osm_search <- function(query,
                                    stringsAsFactors=FALSE)
       }
 
+      tmp_df$lat <- as.numeric(tmp_df$lat)
+      tmp_df$lon <- as.numeric(tmp_df$lon)
+      tmp_df$importance <- as.numeric(tmp_df$importance)
+
       tmp_df
 
     })))

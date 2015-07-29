@@ -104,6 +104,11 @@ osm_search_spatial <- function(query,
       dat <- cbind.data.frame(dat, ret$address)
     }
 
+    dat$lat <- as.numeric(dat$lat)
+    dat$lon <- as.numeric(dat$lon)
+    dat$importance <- as.numeric(dat$importance)
+
+
     if ("geojson" %in% colnames(ret)) {
 
       typ <- unique(ret$geojson$type)
