@@ -23,6 +23,7 @@ The following functions are implemented:
 
 ### News
 
+-   Version 0.2.1.9000 released : bb\_lookup can also take an `sp::bbox`-like matrix as value to `viewbox`
 -   Version 0.2.0.9000 released : bb\_lookup
 -   Version 0.1.1.9000 released : address lookup, switch API server, API timeout watch
 -   Version 0.1.0.9000 released : "spatial" stuff
@@ -56,7 +57,7 @@ library(nominatim)
 
 # current verison
 packageVersion("nominatim")
-#> [1] '0.1.1.9000'
+#> [1] '0.2.1.9000'
 
 # Reverse geocode Canadian embassies
 # complete list of Canadian embassies here:
@@ -226,7 +227,7 @@ library(nominatim)
 library(testthat)
 
 date()
-#> [1] "Tue Aug 11 10:30:44 2015"
+#> [1] "Tue Aug 11 13:27:22 2015"
 
 test_dir("tests/")
 #> testthat results ========================================================================================================

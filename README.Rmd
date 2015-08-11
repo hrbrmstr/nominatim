@@ -38,6 +38,7 @@ The following functions are implemented:
 
 ### News
 
+- Version 0.2.1.9000 released : bb_lookup can also take an `sp::bbox`-like matrix as value to `viewbox` 
 - Version 0.2.0.9000 released : bb_lookup
 - Version 0.1.1.9000 released : address lookup, switch API server, API timeout watch
 - Version 0.1.0.9000 released : "spatial" stuff
