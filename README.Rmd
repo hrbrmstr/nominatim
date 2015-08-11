@@ -34,9 +34,11 @@ The following functions are implemented:
 - `osm_search_spatial`:	Search for places, returning a list of 'SpatialPointsDataFrame', 'SpatialLinesDataFrame' or a 'SpatialPolygonsDataFrame'
 - `reverse_geocode_coords`:	Reverse geocode based on lat/lon
 - `reverse_geocode_osm`:	Reverse geocode based on OSM Type & Id
+- `bb_lookup`:  Bounding box (and other metadata) lookup
 
 ### News
 
+- Version 0.2.0.9000 released : bb_lookup
 - Version 0.1.1.9000 released : address lookup, switch API server, API timeout watch
 - Version 0.1.0.9000 released : "spatial" stuff
 - Version 0.0.0.9000 released
@@ -110,6 +112,11 @@ osm_geocode(c("1600 Pennsylvania Ave, Washington, DC.",
 # spatial
 library(sp)
 plot(osm_search_spatial("[bakery]+berlin+wedding", limit=5)[[1]])
+
+# bounding box (et. al.)
+bb_lookup("West Yorkshire", c(-4.37, 54.88, 2.04, 52.96))
+
+bb_lookup("United States")
 
 ```
 
