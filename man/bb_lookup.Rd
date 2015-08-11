@@ -9,7 +9,7 @@ bb_lookup(query, viewbox = NULL)
 \arguments{
 \item{query}{search terms to pass to OSM Nominatim}
 
-\item{viebox}{(optional) atomic character vector with comma-separated values
+\item{viewbox}{(optional) atomic character vector with comma-separated values
               (e.g. \code{"-4.37,54.88,2.04,52.96"}) or a 4-element vector
               specifying the viewbox (e.g. \code{c(-4.37,54.88,2.04,52.96)}).}
 }

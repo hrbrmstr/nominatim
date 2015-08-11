@@ -4,7 +4,7 @@
 #' and retrieve \code{place} metadata, including bounding box information
 #'
 #' @param query search terms to pass to OSM Nominatim
-#' @param viebox (optional) atomic character vector with comma-separated values
+#' @param viewbox (optional) atomic character vector with comma-separated values
 #'               (e.g. \code{"-4.37,54.88,2.04,52.96"}) or a 4-element vector
 #'               specifying the viewbox (e.g. \code{c(-4.37,54.88,2.04,52.96)}).
 #'

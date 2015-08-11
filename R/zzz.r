@@ -14,7 +14,7 @@ reverse_base <- "http://open.mapquestapi.com/nominatim/v1/reverse.php"
 # reverse_base <- "http://nominatim.openstreetmap.org/reverse"
 
 .onAttach <- function(libname, pkgname) {
-  message("Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright")
-  message("Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy")
-  message("MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/")
+  packageStartupMessage("Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright")
+  packageStartupMessage("Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy")
+  packageStartupMessage("MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/")
 }
