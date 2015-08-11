@@ -55,7 +55,7 @@ bb_lookup <- function(query, viewbox=NULL) {
 
   if ("boundingbox" %in% colnames(dat)) {
     good_cols <- setdiff(colnames(dat), "boundingbox")
-    bbox <- setNames(do.call(rbind.data.frame, dat$boundingbox), c("top", "left", "bottom", "right"))
+    bbox <- setNames(do.call(rbind.data.frame, dat$boundingbox), c("bottom", "top", "left", "right"))
     cbind.data.frame(dat[,good_cols], bbox, stringsAsFactors=FALSE)
   } else {
     dat
