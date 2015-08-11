@@ -10,4 +10,4 @@ Depends: R (>= 3.2.0)
 License: MIT + file LICENSE
 LazyData: true
 Suggests: testthat
-Imports: httr, dplyr, utils, pbapply, curl, sp, jsonlite
+Imports: httr, dplyr, utils, pbapply, curl, sp, jsonlite, stats

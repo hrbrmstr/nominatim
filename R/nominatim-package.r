@@ -16,4 +16,5 @@
 #' @import httr dplyr pbapply utils sp
 #' @importFrom jsonlite fromJSON
 #' @importFrom curl curl_escape
+#' @importFrom stats setNames
 NULL
