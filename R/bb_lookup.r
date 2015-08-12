@@ -72,6 +72,9 @@ bb_lookup <- function(query, viewbox = NULL) {
 #' btlr <- meta[1,c("bottom", "top", "left", "right")]
 #' btlr_to_bb(btlr)
 btlr_to_bb <- function(btlr){
+  if("bottom" %in% names(btlr)){
+    btlr <- btlr[1,c("bottom", "top", "left", "right")]
+  }
   v <- as.numeric(btlr)
   cmat <- matrix(v[c(3,3,4,4,1,2,1,2)], nrow = 4)
   spobj <- sp::SpatialPoints(coords = cmat)
