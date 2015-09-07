@@ -4,7 +4,7 @@
 \name{nominatim}
 \alias{nominatim}
 \alias{nominatim-package}
-\title{A package to is an R package to interface to the OpenStreeMap Nominatum API}
+\title{An interface between R and the OpenStreeMap Nominatim API}
 \description{
 Most queries are run against the MapQuest Nominatim API as per the OpenStreetMap
 recommendation.
