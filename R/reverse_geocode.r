@@ -53,7 +53,7 @@ reverse_geocode_coords <- function(lat, lon,
                    `accept-language`=accept_language,
                    addressdetails=as.numeric(address_details))
 
-    if (length(lat) > 1 & length(lat) != i) Sys.sleep(DELAY)
+    if (length(lat) > 1 & length(lat) != i) Sys.sleep(getOption("NOMINATIM.DELAY"))
 
     reverse_geocode(params)
 
@@ -118,7 +118,7 @@ reverse_geocode_osm <- function(osm_type, osm_id,
                    `accept-language`=accept_language,
                    addressdetails=as.numeric(address_details))
 
-    if (length(osm_type) > 1 & length(osm_type) != i) Sys.sleep(DELAY)
+    if (length(osm_type) > 1 & length(osm_type) != i) Sys.sleep(getOption("NOMINATIM.DELAY"))
 
     reverse_geocode(params)
 
@@ -131,7 +131,7 @@ reverse_geocode <- function(params) {
 
   tryCatch({
 
-    res <- GET(reverse_base, query=params, timeout(TIMEOUT))
+    res <- GET(reverse_base, query=params, timeout(getOption("NOMINATIM.TIMEOUT")))
     stop_for_status(res)
 
     ret <- content(res)

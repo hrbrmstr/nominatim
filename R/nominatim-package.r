@@ -1,4 +1,4 @@
-#' A package to is an R package to interface to the OpenStreeMap Nominatum API
+#' An interface between R and the OpenStreeMap Nominatim API
 #'
 #' Most queries are run against the MapQuest Nominatim API as per the OpenStreetMap
 #' recommendation.
