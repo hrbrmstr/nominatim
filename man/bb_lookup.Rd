@@ -28,7 +28,7 @@ and retrieve \code{place} metadata, including bounding box information
 }
 \examples{
 bb_lookup("West Yorkshire", c(-4.37, 54.88, 2.04, 52.96))
-bb_lookup("West Yorkshire", "-4.37,54.88,2.04,52.96")
+#bb_lookup("West Yorkshire", "-4.37,54.88,2.04,52.96")
 bb_lookup("West Yorkshire", c(top=-4.37, left=54.88, bottom=2.04, right=52.96))
 bb_lookup("United States")
 }

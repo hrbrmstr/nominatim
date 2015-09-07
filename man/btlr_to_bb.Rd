@@ -7,7 +7,7 @@
 btlr_to_bb(btlr)
 }
 \arguments{
-\item{meta}{metadata provided by \link{bb_lookup}}
+\item{btlr}{metadata provided by \link{bb_lookup}}
 }
 \value{
 \link[sp]{bbox}
