@@ -10,14 +10,14 @@ bb_lookup(query, viewbox = NULL)
 \item{query}{search terms to pass to OSM Nominatim}
 
 \item{viewbox}{(optional) one of:
-  \itemize{
-    \item{an atomic character vector with comma-separated values (e.g. \code{"-4.37,54.88,2.04,52.96"})}
-    \item{a 4-element vector specifying the viewbox (e.g. \code{c(-4.37,54.88,2.04,52.96)})}
-    \item{a named 4-element vector with \code{top}, \code{left}, \code{bottom}, \code{right} identified
-          (e.g. \code{c(top=-4.37, left=54.88, bottom=2.04, right=52.96)}) in any order}
-    \item{a 2x2 matrix as returned by \code{\link[sp]{bbox}}; i.e. with rownames of \code{x} and \code{y} and
-          column names of \code{min} and \code{max}}
-  }}
+\itemize{
+  \item{an atomic character vector with comma-separated values (e.g. \code{"-4.37,54.88,2.04,52.96"})}
+  \item{a 4-element vector specifying the viewbox (e.g. \code{c(-4.37,54.88,2.04,52.96)})}
+  \item{a named 4-element vector with \code{top}, \code{left}, \code{bottom}, \code{right} identified
+        (e.g. \code{c(top=-4.37, left=54.88, bottom=2.04, right=52.96)}) in any order}
+  \item{a 2x2 matrix as returned by \code{\link[sp]{bbox}}; i.e. with rownames of \code{x} and \code{y} and
+        column names of \code{min} and \code{max}}
+}}
 }
 \value{
 \code{data.frame} of places with metatata, including bounding box information

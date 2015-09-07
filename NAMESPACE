@@ -2,6 +2,7 @@
 
 export(address_lookup)
 export(bb_lookup)
+export(btlr_to_bb)
 export(osm_geocode)
 export(osm_search)
 export(osm_search_spatial)
