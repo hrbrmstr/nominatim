@@ -1,7 +1,10 @@
 Package: nominatim
 Title: Tools for Working with the 'Nominatim' API
-Version: 0.2.1.9001
-Authors@R: c(person("Bob", "Rudis", email = "bob@rudis.net", role = c("aut", "cre")))
+Version: 0.2.2.9000
+Authors@R: c(
+    person("Bob", "Rudis", email = "bob@rudis.net", role = c("aut", "cre")),
+    person("Timothée", "Giraud", role = c("ctb"))
+  )
 Maintainer: Bob Rudis <bob@rudis.net>
 Description: 'OpenStreetMap' has an API interface dubbed 'Nominatim' <http://wiki.openstreetmap.org/wiki/Nominatim>
     for the geocoding, reverse geocoding and searching/querying for "places".
@@ -10,4 +13,5 @@ Depends: R (>= 3.2.0)
 License: MIT + file LICENSE
 LazyData: true
 Suggests: testthat
+Encoding: UTF-8
 Imports: httr, dplyr, utils, pbapply, curl, sp, jsonlite, stats
