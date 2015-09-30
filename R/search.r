@@ -59,7 +59,7 @@ osm_geocode <- function(query,
 
   bind_rows(pblapply(1:length(query), function(i) {
 
-    param_base <- sprintf("%s/%s", search_base, gsub(" ", "+", query[i]))
+    param_base <- sprintf("%s/%s", getOption("NOMINATIM.search_base"), gsub(" ", "+", query[i]))
 
     params <- "format=json&dedupe=0&debug=0&polygon=0"
     if (!is.null(country_codes)) params <- sprintf("%s&country_codes=%s", params, country_codes)
@@ -71,7 +71,7 @@ osm_geocode <- function(query,
     params <- sprintf("%s&address_details=%d", params, as.numeric(address_details))
     params <- sprintf("%s&limit=%d", params, as.numeric(limit))
 
-    if (length(query) > 1 & length(query) != i) Sys.sleep(DELAY)
+    if (length(query) > 1 & length(query) != i) Sys.sleep(getOption("NOMINATIM.DELAY"))
 
     .search(param_base, params)
 
@@ -144,9 +144,9 @@ osm_search <- function(query,
     param_base <- sprintf("%s&limit=%d", param_base, as.numeric(limit))
     param_base <- sprintf("%s&q=%s", param_base, gsub(" ", "+", query[i]))
 
-    if (length(query) > 1 & length(query) != i) Sys.sleep(DELAY)
+    if (length(query) > 1 & length(query) != i) Sys.sleep(getOption("NOMINATIM.DELAY"))
 
-    .search(search_base, param_base)
+    .search(getOption("NOMINATIM.search_base"), param_base)
 
   }))
 
@@ -156,7 +156,7 @@ osm_search <- function(query,
 
   tryCatch({
 
-    res <- GET(search_base, query=params, timeout(TIMEOUT))
+    res <- GET(search_base, query=params, timeout(getOption("NOMINATIM.TIMEOUT")))
     stop_for_status(res)
 
     ret <- content(res)

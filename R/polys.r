@@ -78,7 +78,7 @@ osm_search_spatial <- function(query,
     param_base <- sprintf("%s&polygon_geojson=1", param_base)
     param_base <- sprintf("%s&q=%s", param_base, gsub(" ", "+", query))
 
-    if (length(query) > 1 & length(query) != i) Sys.sleep(DELAY)
+    if (length(query) > 1 & length(query) != i) Sys.sleep(getOption("NOMINATIM.DELAY"))
 
     .search_poly(param_base)
 
@@ -91,7 +91,7 @@ osm_search_spatial <- function(query,
 
   tryCatch({
 
-    res <- GET(search_base, query=params, timeout(TIMEOUT))
+    res <- GET(getOption("NOMINATIM.search_base"), query=params, timeout(getOption("NOMINATIM.TIMEOUT")))
     stop_for_status(res)
 
     ret <- jsonlite::fromJSON(content(res, as="text"))
