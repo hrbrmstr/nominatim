@@ -3,7 +3,8 @@ Title: Tools for Working with the 'Nominatim' API
 Version: 0.2.2.9000
 Authors@R: c(
     person("Bob", "Rudis", email = "bob@rudis.net", role = c("aut", "cre")),
-    person("Timothée", "Giraud", role = c("ctb"))
+    person("Timothée", "Giraud", role = c("ctb")),
+    person("Calli", "Gross", role = c("ctb"))
   )
 Maintainer: Bob Rudis <bob@rudis.net>
 Description: 'OpenStreetMap' has an API interface dubbed 'Nominatim' <http://wiki.openstreetmap.org/wiki/Nominatim>
