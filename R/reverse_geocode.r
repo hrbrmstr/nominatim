@@ -22,6 +22,7 @@
 #' @param accept_language Preferred language order for showing search results
 #'        Either uses standard rfc2616 accept-language string or a simple comma separated l
 #'        ist of language codes. The \code{LANG} option will be used, if set.#' @return data.frame of reverse geocode results
+#' @param key To access the openstreetmap API you need a valid API key. You can get it for free at https://developer.mapquest.com
 #' @export
 #' @examples \dontrun{
 #' # Reverse geocode Canadian embassies
@@ -40,10 +41,15 @@
 reverse_geocode_coords <- function(lat, lon,
                                    zoom=18, address_details=TRUE,
                                    email=getOption("OSM_API_EMAIL", "nominatimrpackage@example.com"),
-                                   accept_language=getOption("LANG", "en-US,en;q=0.8")) {
+                                   accept_language=getOption("LANG", "en-US,en;q=0.8"),
+                                   key = getOption("OSM_API_KEY", "")) {
 
   if (length(lat) != length(lon)) {
     stop("lat & lon vectors must be the same size", call.=FALSE)
+  }
+
+  if (nchar(key) == 0) {
+    stop('Please provide a openstreet API key')
   }
 
   bind_rows(pblapply(1:length(lat), function(i) {
@@ -51,7 +57,7 @@ reverse_geocode_coords <- function(lat, lon,
     params <- list(lat=lat[i], lon=lon[i],
                    format="json", zoom=zoom, email=email,
                    `accept-language`=accept_language,
-                   addressdetails=as.numeric(address_details))
+                   addressdetails=as.numeric(address_details), key = key)
 
     if (length(lat) > 1 & length(lat) != i) Sys.sleep(getOption("NOMINATIM.DELAY"))
 
@@ -86,6 +92,7 @@ reverse_geocode_coords <- function(lat, lon,
 #' @param accept_language Preferred language order for showing search results
 #'        Either uses standard rfc2616 accept-language string or a simple comma separated l
 #'        ist of language codes. The \code{LANG} option will be used, if set.
+#' @param key To access the openstreetmap API you need a valid API key. You can get it for free at https://developer.mapquest.com
 #' @return data.frame of reverse geocoded results
 #' @export
 #' @examples \dontrun{
@@ -105,10 +112,15 @@ reverse_geocode_coords <- function(lat, lon,
 reverse_geocode_osm <- function(osm_type, osm_id,
                                 zoom=18, address_details=TRUE,
                                 email=getOption("OSM_API_EMAIL", "nominatimrpackage@example.com"),
-                                accept_language=getOption("LANG", "en-US,en;q=0.8")) {
+                                accept_language=getOption("LANG", "en-US,en;q=0.8"),
+                                key = getOption("OSM_API_KEY", "")) {
 
   if (length(osm_type) != length(osm_id)) {
     stop("osm_type & osm_id vectors must be the same size", call.=FALSE)
+  }
+
+  if (nchar(key) == 0) {
+    stop('Please provide a openstreet API key')
   }
 
   bind_rows(pblapply(1:length(osm_type), function(i) {
@@ -116,7 +128,7 @@ reverse_geocode_osm <- function(osm_type, osm_id,
     params <- list(osm_type=osm_type[i], osm_id=osm_id[i],
                    format="json", zoom=zoom, email=email,
                    `accept-language`=accept_language,
-                   addressdetails=as.numeric(address_details))
+                   addressdetails=as.numeric(address_details), key = key)
 
     if (length(osm_type) > 1 & length(osm_type) != i) Sys.sleep(getOption("NOMINATIM.DELAY"))
 

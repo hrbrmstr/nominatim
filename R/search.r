@@ -42,6 +42,7 @@
 #' @param accept_language Preferred language order for showing search results
 #'        Either uses standard rfc2616 accept-language string or a simple comma separated l
 #'        ist of language codes. The \code{LANG} option will be used, if set.
+#' @param key To access the openstreetmap API you need a valid API key. You can get it for free at https://developer.mapquest.com
 #' @export
 #' @examples \dontrun{
 #' osm_search("[bakery]+berlin+wedding", limit=5)
@@ -54,8 +55,12 @@ osm_geocode <- function(query,
                         exclude_place_ids=NULL,
                         limit=1,
                         email=getOption("OSM_API_EMAIL", "nominatimrpackage@example.com"),
-                        accept_language=getOption("LANG", "en-US,en;q=0.8")) {
+                        accept_language=getOption("LANG", "en-US,en;q=0.8"),
+                        key = getOption("OSM_API_KEY", "")) {
 
+  if (nchar(key) == 0) {
+    stop('Please provide a openstreet API key')
+  }
 
   bind_rows(pblapply(1:length(query), function(i) {
 
@@ -70,6 +75,7 @@ osm_geocode <- function(query,
     if (!is.null(accept_language)) params <- sprintf("%s&accept-language=%s", params, curl::curl_escape(accept_language))
     params <- sprintf("%s&address_details=%d", params, as.numeric(address_details))
     params <- sprintf("%s&limit=%d", params, as.numeric(limit))
+    params <- sprintf("%s&key=%s", params, key)
 
     if (length(query) > 1 & length(query) != i) Sys.sleep(getOption("NOMINATIM.DELAY"))
 
@@ -116,6 +122,7 @@ osm_geocode <- function(query,
 #' @param accept_language Preferred language order for showing search results
 #'        Either uses standard rfc2616 accept-language string or a simple comma separated l
 #'        ist of language codes. The \code{LANG} option will be used, if set.
+#' @param key To access the openstreetmap API you need a valid API key. You can get it for free at https://developer.mapquest.com
 #' @export
 #' @examples \dontrun{
 #' osm_search("[bakery]+berlin+wedding", limit=5)
@@ -128,8 +135,12 @@ osm_search <- function(query,
                        exclude_place_ids=NULL,
                        limit=1,
                        email=getOption("OSM_API_EMAIL", "nominatimrpackage@example.com"),
-                       accept_language=getOption("LANG", "en-US,en;q=0.8")) {
+                       accept_language=getOption("LANG", "en-US,en;q=0.8"),
+                       key = getOption("OSM_API_KEY", "")) {
 
+  if (nchar(key) == 0) {
+    stop('Please provide a openstreet API key')
+  }
 
   bind_rows(pblapply(1:length(query), function(i) {
 
@@ -140,6 +151,7 @@ osm_search <- function(query,
     if (!is.null(exclude_place_ids)) param_base <- sprintf("%s&exclude_place_ids=%s", param_base, exclude_place_ids)
     if (!is.null(email)) param_base <- sprintf("%s&email=%s", param_base, curl::curl_escape(email))
     if (!is.null(accept_language)) param_base <- sprintf("%s&accept-language=%s", param_base, curl::curl_escape(accept_language))
+    param_base <- sprintf("%s&key=%s", param_base, key)
     param_base <- sprintf("%s&address_details=%d", param_base, as.numeric(address_details))
     param_base <- sprintf("%s&limit=%d", param_base, as.numeric(limit))
     param_base <- sprintf("%s&q=%s", param_base, gsub(" ", "+", query[i]))
