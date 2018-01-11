@@ -7,12 +7,12 @@
 #' Nominatim indexes named (or numbered) features with the OSM data set and a subset of
 #' other unnamed features (pubs, hotels, churches, etc).
 #'
-#' @note A slight delay is introduced between calls as both OpenStreetMap Nominatim &
-#'       MapQuest Nominatim API calls to reduce load on their servers.
+#' @note A slight delay is introduced between calls to both OpenStreetMap Nominatim &
+#'       MapQuest Nominatim API to reduce load on their servers.
 #'
-#' Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright\cr
-#' Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy\cr
-#' MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/\cr
+#' Data (c) OpenStreetMap contributors, ODbL 1.0. \url{http://www.openstreetmap.org/copyright}\cr
+#' Nominatim Usage Policy: \url{http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy}\cr
+#' MapQuest Nominatim Terms of Use: \url{http://info.mapquest.com/terms-of-use/}\cr
 #'
 #' Search terms are processed first left to right and then right to left if that fails.
 #'
@@ -40,9 +40,10 @@
 #'        in directly or set the \code{OSM_API_EMAIL} option and the function will
 #'        it for all requests.
 #' @param accept_language Preferred language order for showing search results
-#'        Either uses standard rfc2616 accept-language string or a simple comma separated l
-#'        ist of language codes. The \code{LANG} option will be used, if set.
-#' @param key To access the openstreetmap API you need a valid API key. You can get it for free at https://developer.mapquest.com
+#'        Either uses standard rfc2616 accept-language string or a simple comma separated list
+#'        of language codes. The \code{LANG} option will be used, if set.
+#' @param key To access the openstreetmap API you need a valid API key. You can get it for free
+#'        at \url{https://developer.mapquest.com}
 #' @export
 #' @examples \dontrun{
 #' # returns SpatialPointsDataFrame

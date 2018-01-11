@@ -16,31 +16,44 @@
 #' @return \code{data.frame} of places with metatata, including bounding box information
 #' @export
 #' @examples
+#' bb_lookup("West Yorkshire", "-4.37,54.88,2.04,52.96")
 #' bb_lookup("West Yorkshire", c(-4.37, 54.88, 2.04, 52.96))
-# #' bb_lookup("West Yorkshire", "-4.37,54.88,2.04,52.96")
 #' bb_lookup("West Yorkshire", c(top=-4.37, left=54.88, bottom=2.04, right=52.96))
 #' bb_lookup("United States")
 bb_lookup <- function(query, viewbox = NULL) {
 
   if (!is.null(viewbox)) {
     if (inherits(viewbox, "matrix")) {
-      if (all(rownames(viewbox) %in% c("x", "y")    ) &
+      if (all(rownames(viewbox) %in% c("x", "y")) &
           all(colnames(viewbox) %in% c("min", "max"))) {
-        viewbox <- c(viewbox["y", "max"], viewbox["x", "min"], viewbox["y", "min"], viewbox["x", "max"])
-        viewbox <- paste0(viewbox, collapse=",")
+        viewbox <-
+          c(viewbox["y", "max"], viewbox["x", "min"], viewbox["y", "min"], viewbox["x", "max"])
+        viewbox <- paste0(viewbox, collapse = ",")
       } else {
-        stop("When 'viewbox' is specified as a matrix, it must be in sp::bbox format", call.=FALSE)
+        stop("When 'viewbox' is specified as a matrix, it must be in sp::bbox format",
+             call. = FALSE)
       }
     } else {
-      if (length(viewbox) > 1 & length(viewbox) == 4) {
-        if (all(names(viewbox) %in% c("top", "left", "bottom", "right"))) {
-          viewbox <- paste0(viewbox[c("top", "left", "bottom", "right")], collapse=",")
+      if (length(viewbox) == 4) {
+        if (!is.null(names(viewbox)) &&
+            all(names(viewbox) %in% c("top", "left", "bottom", "right"))) {
+          viewbox <-
+            paste0(viewbox[c("top", "left", "bottom", "right")], collapse = ",")
         } else {
-          viewbox <- paste0(viewbox, collapse=",")
+          viewbox <- paste0(viewbox, collapse = ",")
         }
       } else {
-        stop(paste0("'viewbox' must either be 'NULL', a single-length, comma-separated vector ",
-                    "or a numeric or character vector of length 4"), call.=FALSE)
+        if (length(viewbox) == 1 && is.character(viewbox)) {
+          viewbox
+        } else {
+          stop(
+            paste0(
+              "'viewbox' must either be 'NULL', a single-length, comma-separated vector ",
+              "or a numeric or character vector of length 4"
+            ),
+            call. = FALSE
+          )
+        }
       }
     }
   }

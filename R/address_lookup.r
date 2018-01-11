@@ -2,12 +2,12 @@
 #'
 #' Vectorized over \code{osm_ids}
 #'
-#' @note A slight delay is introduced between calls as both OpenStreetMap Nominatim &
-#'       MapQuest Nominatim API calls to reduce load on their servers.
+#' @note A slight delay is introduced between calls to both OpenStreetMap Nominatim &
+#'       MapQuest Nominatim API to reduce load on their servers.
 #'
-#' Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright\cr
-#' Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy\cr
-#' MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/\cr
+#' Data (c) OpenStreetMap contributors, ODbL 1.0. \url{http://www.openstreetmap.org/copyright}\cr
+#' Nominatim Usage Policy: \url{http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy}\cr
+#' MapQuest Nominatim Terms of Use: \url{http://info.mapquest.com/terms-of-use/}\cr
 #'
 #' @param osm_ids A vector of up to 50 specific osm node, way or relations ids to
 #'        return the addresses for. Format for each entry is \code{[N|W|R]<value>}.
@@ -19,8 +19,9 @@
 #'        in directly or set the \code{OSM_API_EMAIL} option and the function will
 #'        it for all requests.
 #' @param accept_language Preferred language order for showing search results
-#'        Either uses standard rfc2616 accept-language string or a simple comma separated l
-#'        ist of language codes. The \code{LANG} option will be used, if set.#' @export
+#'        Either uses standard rfc2616 accept-language string or a simple comma separated
+#'        list of language codes. The \code{LANG} option will be used, if set.
+#' @export
 #' @examples \dontrun{
 #' places <- c("R146656", "W104393803", "N240109189")
 #' places_found <- address_lookup(places)
