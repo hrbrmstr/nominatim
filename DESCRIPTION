@@ -1,6 +1,6 @@
 Package: nominatim
 Title: Tools for Working with the 'Nominatim' API
-Version: 0.2.2.9000
+Version: 0.2.2.9001
 Authors@R: c(
     person("Bob", "Rudis", email = "bob@rudis.net", role = c("aut", "cre")),
     person("Timothée", "Giraud", role = c("ctb")),
@@ -16,3 +16,4 @@ LazyData: true
 Suggests: testthat
 Encoding: UTF-8
 Imports: httr, dplyr, utils, pbapply, curl, sp, jsonlite, stats
+RoxygenNote: 6.0.1
