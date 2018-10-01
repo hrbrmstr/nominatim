@@ -21,8 +21,10 @@
 #'        it for all requests.
 #' @param accept_language Preferred language order for showing search results
 #'        Either uses standard rfc2616 accept-language string or a simple comma separated l
-#'        ist of language codes. The \code{LANG} option will be used, if set.#' @return data.frame of reverse geocode results
-#' @param key To access the openstreetmap API you need a valid API key. You can get it for free at https://developer.mapquest.com
+#'        ist of language codes. The \code{LANG} option will be used, if set.#'
+#' @return data.frame of reverse geocode results
+#' @param key To access the openstreetmap API you need a valid API key.
+#'        You can get it for free at https://developer.mapquest.com
 #' @export
 #' @examples \dontrun{
 #' # Reverse geocode Canadian embassies

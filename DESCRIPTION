@@ -16,3 +16,4 @@ LazyData: true
 Suggests: testthat
 Encoding: UTF-8
 Imports: httr, dplyr, utils, pbapply, curl, sp, jsonlite, stats
+RoxygenNote: 6.0.1.9000
