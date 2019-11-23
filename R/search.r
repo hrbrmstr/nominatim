@@ -16,7 +16,7 @@
 #' Nominatim Usage Policy: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy\cr
 #' MapQuest Nominatim Terms of Use: http://info.mapquest.com/terms-of-use/\cr
 #'
-#' @param query Query string to search for. SHould be in standard address format.
+#' @param query Query string to search for. Should be in standard address format.
 #' @param country_codes Limit search results to a specific country (or a list of countries).
 #'        Should be the ISO 3166-1alpha2 code,e.g. gb for the United Kingdom, de for Germany, etc.
 #'        Format: \code{<countrycode>[,<countrycode>][,<countrycode>]...}
@@ -67,13 +67,13 @@ osm_geocode <- function(query,
     param_base <- sprintf("%s/%s", getOption("NOMINATIM.search_base"), gsub(" ", "+", query[i]))
 
     params <- "format=json&dedupe=0&debug=0&polygon=0"
-    if (!is.null(country_codes)) params <- sprintf("%s&country_codes=%s", params, country_codes)
+    if (!is.null(country_codes)) params <- sprintf("%s&countrycodes=%s", params, country_codes)
     if (!is.null(viewbox)) params <- sprintf("%s&viewbox=%s", params, viewbox)
     if (!is.null(bounded)) params <- sprintf("%s&bounded=%d", params, as.numeric(bounded))
     if (!is.null(exclude_place_ids)) params <- sprintf("%s&exclude_place_ids=%s", params, exclude_place_ids)
     if (!is.null(email)) params <- sprintf("%s&email=%s", params, curl::curl_escape(email))
     if (!is.null(accept_language)) params <- sprintf("%s&accept-language=%s", params, curl::curl_escape(accept_language))
-    params <- sprintf("%s&address_details=%d", params, as.numeric(address_details))
+    params <- sprintf("%s&addressdetails=%d", params, as.numeric(address_details))
     params <- sprintf("%s&limit=%d", params, as.numeric(limit))
     params <- sprintf("%s&key=%s", params, key)
 
@@ -126,6 +126,7 @@ osm_geocode <- function(query,
 #' @export
 #' @examples \dontrun{
 #' osm_search("[bakery]+berlin+wedding", limit=5)
+#' osm_search("Halifax", limit=3, country_codes="gb,ca")
 #' }
 osm_search <- function(query,
                        country_codes=NULL,
@@ -145,14 +146,14 @@ osm_search <- function(query,
   bind_rows(pblapply(1:length(query), function(i) {
 
     param_base <- "format=json&dedupe=0&debug=0&polygon=0"
-    if (!is.null(country_codes)) param_base <- sprintf("%s&country_codes=%s", param_base, country_codes)
+    if (!is.null(country_codes)) param_base <- sprintf("%s&countrycodes=%s", param_base, country_codes)
     if (!is.null(viewbox)) param_base <- sprintf("%s&viewbox=%s", param_base, viewbox)
     if (!is.null(bounded)) param_base <- sprintf("%s&bounded=%d", param_base, as.numeric(bounded))
     if (!is.null(exclude_place_ids)) param_base <- sprintf("%s&exclude_place_ids=%s", param_base, exclude_place_ids)
     if (!is.null(email)) param_base <- sprintf("%s&email=%s", param_base, curl::curl_escape(email))
     if (!is.null(accept_language)) param_base <- sprintf("%s&accept-language=%s", param_base, curl::curl_escape(accept_language))
     param_base <- sprintf("%s&key=%s", param_base, key)
-    param_base <- sprintf("%s&address_details=%d", param_base, as.numeric(address_details))
+    param_base <- sprintf("%s&addressdetails=%d", param_base, as.numeric(address_details))
     param_base <- sprintf("%s&limit=%d", param_base, as.numeric(limit))
     param_base <- sprintf("%s&q=%s", param_base, gsub(" ", "+", query[i]))
 
